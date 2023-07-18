@@ -47,7 +47,7 @@ const App = () => {
     </>);
 };
 ```
-For a more detailed example, please refer to the CodeSandbox [demo]("https://codesandbox.io/s/lingering-feather-93kw25").
+For a more detailed example, please refer to the CodeSandbox [demo](https://codesandbox.io/s/lingering-feather-93kw25).
 
 
 ## Documentation
