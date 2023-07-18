@@ -2,8 +2,6 @@
 
 @patrickxu/use-loading is a custom React hook effortlessly manages the loading state of asynchronous functions.
 
-And of course emonster-hnc itself is open source with a [public repository][github] on GitHub.
-
 ## Installation
 
 To install @patrickxu/use-loading, simply run:
@@ -77,8 +75,3 @@ interface UseLoadingReturnType {
 
 ## Contributing
 If you'd like to contribute to @patrickxu/use-loading, feel free to submit a pull request or open an issue on GitHub. We welcome all contributions and feedback!
-
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-[github]: <https://github.com/patrickxunuo/emonster-hnc>
-[react]: <https://reactjs.org/>
