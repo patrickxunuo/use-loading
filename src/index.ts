@@ -1,19 +1,21 @@
 import { useRef, useState } from 'react';
 
-type onActionType = (...params: any[]) => Promise<any>;
+type ActionType = (...params: any[]) => Promise<any>;
 
-interface ActionType {
+interface UseLoadingReturnType {
+  // state indicating whether async function is running
   isLoading: boolean;
+  // state indicating whether async function throws an error
   isError: boolean;
-  handleAction: onActionType;
-  groupHandler: (
-    fun: onActionType,
-    key?: string
-  ) => (...params: any) => Promise<any>;
+  // the handler returned if you pass an async function as input
+  handleAction: ActionType;
+  // the handler for multiple async function share the same loading state
+  groupHandler: (fun: ActionType, key?: string) => ActionType;
+  // the keys of async function that are running
   keys: string[];
 }
 
-const useLoading = (onAction?: onActionType): ActionType => {
+const useLoading = (onAction?: ActionType): UseLoadingReturnType => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [activeKey, setActiveKey] = useState<string[]>([]);
@@ -54,7 +56,7 @@ const useLoading = (onAction?: onActionType): ActionType => {
     removeKey(key);
   };
 
-  const handleAction: onActionType = async (...params: any[]) => {
+  const handleAction: ActionType = async (...params: any[]) => {
     const DEFAULT_KEY = 'default';
     if (!onAction) return;
     beforeLoad(DEFAULT_KEY);
@@ -65,8 +67,8 @@ const useLoading = (onAction?: onActionType): ActionType => {
     return result;
   };
 
-  const groupHandler = (fun: onActionType, key?: string) => async (
-    ...params: any
+  const groupHandler = (fun: ActionType, key?: string) => async (
+    ...params: any[]
   ) => {
     beforeLoad(key);
     const result = await fun(...params)
