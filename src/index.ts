@@ -40,31 +40,39 @@ const useLoading = (onAction?: onActionType): ActionType => {
     });
   };
 
+  const beforeLoad = (key: string | undefined) => {
+    callRef.current += 1;
+    addKey(key);
+    load();
+  };
+
+  const afterLoad = (key: string | undefined) => {
+    callRef.current -= 1;
+    if (callRef.current === 0) {
+      notLoad();
+    }
+    removeKey(key);
+  };
+
   const handleAction: onActionType = async (...params: any[]) => {
     const DEFAULT_KEY = 'default';
     if (!onAction) return;
-    addKey(DEFAULT_KEY);
-    load();
+    beforeLoad(DEFAULT_KEY);
     const result = await onAction(...params)
       .then(() => setIsError(false))
       .catch(() => setIsError(true));
-    notLoad();
-    removeKey(DEFAULT_KEY);
+    afterLoad(DEFAULT_KEY);
     return result;
   };
 
   const groupHandler = (fun: onActionType, key?: string) => async (
     ...params: any
   ) => {
-    callRef.current += 1;
-    addKey(key);
-    load();
-    const result = await fun(...params);
-    callRef.current -= 1;
-    if (callRef.current === 0) {
-      notLoad();
-    }
-    removeKey(key);
+    beforeLoad(key);
+    const result = await fun(...params)
+      .then(() => setIsError(false))
+      .catch(() => setIsError(true));
+    afterLoad(key);
     return result;
   };
 
